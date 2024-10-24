@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .nav-link-active {
+        @apply text-white;
+        /* Active text color for the link */
+        @apply bg-white/10;
+        /* Active background color for the link */
+    }
+
+    .nav-link-active .active-icon {
+        @apply text-red-600;
+        /* Active state text color for icon */
+    }
+}
