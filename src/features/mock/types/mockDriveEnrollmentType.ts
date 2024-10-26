@@ -1,6 +1,6 @@
 export type InitialStateType = {
-    status?: string;
-    data?: string | null | any;
-    error?: string | null;
-    loading?: boolean;
+    status: "idle" | "loading" | "success" | "failed";
+    loading: boolean;
+    error: string | null;
+    data: any | null;
 }

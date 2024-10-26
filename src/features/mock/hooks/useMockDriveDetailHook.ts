@@ -1,24 +1,23 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../store/store";
-import { useParams } from "react-router-dom";
-import { fetchMockDriveDetail } from "../reducers/mockDriveDetailSlice";
+import { fetchMockDriveDetail } from "../reducer/MockDriveDetailReducer";
 import { showToast } from "../../../components/toast/reducer/toastSlice";
 
 const useMockDriveDetailHook = () => {
-    const { mockId } = useParams();
     const dispatch = useAppDispatch();
-    const { data, status, error, loading } = useAppSelector((state) => state.mock.mockDriveDetail);
+    const { status, loading, data, error } = useAppSelector((state) => state.mock.mockDetail);
+    const { mockId } = useParams<{ mockId: string }>();
 
     useEffect(() => {
         if (mockId) dispatch(fetchMockDriveDetail(mockId));
-    }, [mockId, dispatch]);
+    }, [dispatch, mockId])
 
     useEffect(() => {
-        if (error) dispatch(showToast({ message: error, type: "error" }))
-    }, [error, mockId])
+        if (error) dispatch(showToast({ message: error, type: "error" }));
+    }, [dispatch, error]);
 
-
-    return { data, status, error, loading };
-};
+    return { data, error, loading, status };
+}
 
 export default useMockDriveDetailHook;

@@ -28,7 +28,7 @@ const Signup: React.FC = () => {
         <div className="auth-signup">
             <button className="text-red-600" onClick={googleAuth}>google auth</button>
             <div className="h-screen max-w-7xl mx-auto flex flex-nowrap items-center justify-center p-5">
-                <form onSubmit={handleSubmit} className="w-full sm:w-[500px] md:w-[470px] bg-white border p-4 md:p-7 rounded-xl">
+                <form onSubmit={handleSubmit} className="w-full sm:w-[500px] md:w-[470px] bg-white p-4 md:p-7 rounded-xl">
                     <div className="flex flex-nowrap items-center justify-center gap-2 text-gray-700">
                         <h1 className="text-[16px] font-medium capitalize text-center">Registration Form</h1>
                         <RiUserSmileLine className="text-xl text-red-600" />
@@ -40,28 +40,28 @@ const Signup: React.FC = () => {
                             placeholder="First Name"
                             value={formData.first_name}
                             onChange={handleChange}
-                            className="focus:outline-none text-xs font-medium border-[1.4px] border-gray-200 w-full p-3 tracking-wide" />
+                            className="focus:outline-none text-xs font-medium border-[1.4px] border-gray-200 w-full p-4 tracking-wide" />
                         <Input
                             type="text"
                             name="last_name"
                             placeholder="Last Name"
                             value={formData.last_name}
                             onChange={handleChange}
-                            className="focus:outline-none text-xs font-medium border-[1.4px] border-gray-200 w-full p-3 tracking-wide" />
+                            className="focus:outline-none text-xs font-medium border-[1.4px] border-gray-200 w-full p-4 tracking-wide" />
                         <Input
                             type="tel"
                             name="phone"
                             placeholder="Phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="focus:outline-none text-xs font-medium border-[1.4px] border-gray-200 w-full p-3 tracking-wide" />
+                            className="focus:outline-none text-xs font-medium border-[1.4px] border-gray-200 w-full p-4 tracking-wide" />
                         <Input
                             type="email"
                             name="email"
                             placeholder="Email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="focus:outline-none text-xs font-medium border-[1.4px] border-gray-200 w-full p-3 tracking-wide" />
+                            className="focus:outline-none text-xs font-medium border-[1.4px] border-gray-200 w-full p-4 tracking-wide" />
                         <Input type="password"
                             name="password"
                             placeholder="Password"

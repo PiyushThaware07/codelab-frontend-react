@@ -1,29 +1,22 @@
 import React from "react";
+import { CategoryType } from "../types/MockDriveListType";
 import { Link } from "react-router-dom";
-import { Drive } from "../types/mockDriveListType";
 
-interface CardProps {
-    data?: Drive
+type ICardProps = {
+    data: CategoryType
 }
 
-
-
-const Card: React.FC<CardProps> = ({ data }) => {
+const Card: React.FC<ICardProps> = ({ data }) => {
     return (
-        <Link to={`/mock-drive/${data?.id}/details`} className="card bg-white p-4 border-[1.3px] border-gray-200 rounded-xl">
-            <div className="flex flex-nowrap items-center justify-between gap-5">
-                <h1 className="text-[13px] font-semibold">{data?.name || ""}</h1>
+        <Link to={`/mock-drive/${data?.id}/detail`} className="card w-full bg-white rounded-xl p-4 cursor-pointer">
+            <div className="">
+                <h1 className="text-[13.5px] font-medium">{data?.name || ""}</h1>
             </div>
-            <div className="content flex flex-col justify-between gap-3">
+            <div className="tags mt-5 flex  flex-wrap items-center gap-2 w-full select-none">
                 {
-                    (data?.tags && data?.tags?.length > 0) &&
-                    <div className="tags flex flex-wrap items-center gap-2 mt-4">
-                        {data?.tags?.map((tag: any, index: number) => (
-                            <span key={index} className="text-[11px] bg-gray-100 rounded-full px-2 py-1 border text-gray-500">
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
+                    data?.tags?.map((tag, index) => (
+                        <span key={index} className="text-[10px] font-medium tracking-wide bg-gray-100 text-gray-400 px-4 py-1 rounded-full capitalize">{tag}</span>
+                    ))
                 }
             </div>
         </Link>

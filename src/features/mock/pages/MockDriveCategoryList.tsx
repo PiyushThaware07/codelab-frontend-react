@@ -1,53 +1,40 @@
 import React from "react";
-import { IoIosArrowForward } from "react-icons/io";
-import { useParams } from "react-router-dom";
+
 import useMockDriveListHook from "../hooks/useMockDriveListHook";
 import Loader from "../../../components/loader/Loader";
+import { useParams } from "react-router-dom";
 import Card from "../components/Card";
-import { Drive } from "../types/mockDriveListType";
+import { CategoryType } from "../types/MockDriveListType";
 
 
-const MockDriveCategoryList: React.FC = () => {
-    const { categoryName } = useParams<{ categoryName: string }>();
+
+const MockDriveCateoryList: React.FC = () => {
+    const { categoryName } = useParams<{ categoryName: string }>()
     const { data, loading } = useMockDriveListHook();
-    
-    if (loading) return <Loader />;
-    if (data) {
-        const categoryData: Drive[] = data[categoryName as keyof typeof data] || [];
-        return (
-            <div className="mock-drive-category-list max-w-7xl mx-auto p-5">
-                <div className="breadcrumb">
-                    <ul className="flex flex-nowrap items-center gap-2">
-                        <li className="flex flex-nowrap items-center gap-2">
-                            <a href="" className="text-[13px] font-medium text-gray-400 hover:text-gray-700 capitalize tracking-wide">home</a>
-                            <IoIosArrowForward className="text-sm text-gray-400" />
-                        </li>
-                        <li className="flex flex-nowrap items-center gap-2">
-                            <a href="" className="text-[13px] font-medium text-gray-400 hover:text-gray-700 capitalize tracking-wide">Drive</a>
-                            <IoIosArrowForward className="text-sm text-gray-400" />
-                        </li>
-                        <li className="flex flex-nowrap items-center gap-2">
-                            <a href="" className="text-[13px] font-medium text-gray-700 hover:text-gray-700 capitalize tracking-wide">{categoryName}</a>
-                        </li>
-                    </ul>
-                </div>
 
-                <div className="mt-5 flex flex-col gap-10">
-                    <section>
-                        <div className="flex flex-nowrap items-center justify-between gap-5">
-                            <h1 className="text-sm font-medium capitalize">{categoryName} based</h1>
+
+    if (loading) return <Loader />
+    if (data) {
+        const drives:CategoryType[] = data[categoryName as keyof typeof data];
+        console.log(drives);
+        return (
+            <div className="mock-drive-list p-4 sm:p-6 flex flex-col gap-10 max-w-7xl mx-auto">
+                <section>
+                    <div className="mb-5 flex flex-nowrap items-center justify-between gap-5">
+                        <div className="">
+                            <h1 className="text-[14px] font-medium capitalize">{categoryName} Based</h1>
                         </div>
-                        <div className="grid grid-cols-3 gap-6 my-3">
-                            {categoryData.map((item: Drive, index: number) => (
-                                <Card data={item} key={index} />
-                            ))}
-                        </div>
-                    </section>
-                </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-center">
+                        {drives.map((drive, index) => (
+                            <Card key={index} data={drive} />
+                        ))}
+                    </div>
+                </section>
             </div>
         )
     }
     return null;
 }
 
-export default MockDriveCategoryList;
+export default MockDriveCateoryList;

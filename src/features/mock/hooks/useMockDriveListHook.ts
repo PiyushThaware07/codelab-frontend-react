@@ -1,21 +1,23 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/store"
-import { fetchMockDriveList } from "../reducers/mockDriveListSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { fetchMockDriveList } from "../reducer/MockDriveListReducer";
 import { showToast } from "../../../components/toast/reducer/toastSlice";
 
 const useMockDriveListHook = () => {
     const dispatch = useAppDispatch();
-    const { data, status, loading, error } = useAppSelector((state) => state.mock.mockDriveList);
-    // console.log(data)
+    const { data, loading, status, error } = useAppSelector((state) => state.mock.mockList);
+
     useEffect(() => {
         if (status === "idle") {
             dispatch(fetchMockDriveList());
         }
-        else if (error) {
-            dispatch(showToast({ message: error, type: "error" }))
-        }
     }, [dispatch, status])
-    return { data, status, loading, error }
+
+    useEffect(() => {
+        if (error) dispatch(showToast({ message: error, type: "error" }));
+    }, [dispatch, error]);
+
+    return { data, loading, error, status };
 }
 
 export default useMockDriveListHook;

@@ -1,33 +1,25 @@
-type Details = {
-    [key: string]: any;
-}
-
-
-
-export type Drive = {
-    id?: string;
-    name?: string;
-    description?: string;
-    category?: string;
-    total_price?: string;
-    discount?: string;
-    logo?: string;
-    tags?: string[];
-    thumbnail_url?: string;
-    details?: Details | any;
-}
-
-
-export type MockDriveListType = {
-    company?: Drive[];
-    language?: Drive[];
-    practice?: Drive[];
+export type CategoryType = {
+    id:string;
+    category: string;
+    name: string;
+    description: string;
+    tags: string[];
+    thumbnail_url: string;
+    total_price: string;
+    discount: string;
+    logo: string;
+    details: {
+        [key: string]: any
+    } | null;
 }
 
 
 export type InitialStateType = {
-    status?: string;
-    data?: MockDriveListType | null | string;
-    error?: string | null;
-    loading?: boolean;
+    status: "idle" | "loading" | "success" | "failed";
+    loading: boolean;
+    error: string | null;
+    data: {
+        company: CategoryType[],
+        language: CategoryType[],
+    } | null;
 }

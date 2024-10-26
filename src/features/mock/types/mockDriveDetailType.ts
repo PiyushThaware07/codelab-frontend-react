@@ -1,32 +1,23 @@
-export type QuizChallenge = {
+export type InitialStateType = {
+    status: "idle" | "loading" | "success" | "failed";
+    loading: boolean;
+    error: string | null;
+    data: null | any;
+}
+
+
+export type QuizRound = {
     id: string;
     title: string;
     description: string;
+    is_active: boolean;
     questions: number;
     total_marks: number;
     durations: number;
     online_test_attempt: number;
     negative_marking: boolean;
     guidelines: string[];
-    mock_drive_id: string;
-    category_id: string;
-};
-
-
-export type CodeChallenge = {
-    id: string;
-    title: string;
-    description: string;
-    category: string;
-    questions: number;
-    durations: number;
-    online_test_attempt: number;
-    guidelines: {
-        [key: string]: string;
-    };
-    mock_drive_id: string;
-};
-
+}
 
 export type MockDriveDetailType = {
     id: string;
@@ -39,18 +30,8 @@ export type MockDriveDetailType = {
     tags: string[];
     thumbnail_url: string;
     details: {
-        rounds: number;
-        duration: string;
-        difficulty: string;
-    };
-    quiz: QuizChallenge | null;
-    code: CodeChallenge | null;
-};
-
-
-export type InitialStateType = {
-    status?: string;
-    data?: MockDriveDetailType | null;
-    error?: string | null;
-    loading?: boolean;
+        [key: string]: any
+    }
+    quiz: QuizRound;
+    code: null;
 };

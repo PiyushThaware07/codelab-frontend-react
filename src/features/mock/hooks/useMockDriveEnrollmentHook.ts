@@ -1,27 +1,38 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../store/store";
-import {  useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { getEnrollment, postEnrollment } from "../reducer/MockDriveEnrollmentReducer";
 import { showToast } from "../../../components/toast/reducer/toastSlice";
-import { fetchMockDriveEnrollment } from "../reducers/mockDriveEnrollmentSlice";
 
-
-const useMockDriveEnrollMentHook = () => {
-    const { mockId } = useParams();
+const useMockDriveEnrollmentHook = () => {
+    const { mockId } = useParams<{ mockId: string }>();
     const dispatch = useAppDispatch();
+    const { status, loading, data, error } = useAppSelector((state) => state.mock.mockEnrollment);
 
-    const { data, error, loading, status } = useAppSelector((state) => state.mock.mockDriveEnrollment);
 
+    // GET ENROLLMENT DETAILS
     useEffect(() => {
-        if (mockId) dispatch(fetchMockDriveEnrollment(mockId));
-    }, [dispatch, mockId]);
+        if (mockId) {
+            dispatch(getEnrollment(mockId));
+        }
+    }, [dispatch, mockId])
 
+
+    // POST ENROLLMENT DETAILS
+    const enrollDrive = useCallback(async () => {
+        if (mockId) {
+            await dispatch(postEnrollment({ mockId, payload: {} }))
+            await dispatch(showToast({ message: "Enrollment Successful!", type: "success" }))
+        }
+    }, [dispatch])
+
+    
+    // HANDLE ERRORS
     useEffect(() => {
-        if (!error) return;
-        const toastMessage: any = { message: error, type: "error" };
-        dispatch(showToast(toastMessage));
+        if (error) dispatch(showToast({ message: error, type: "error" }));
     }, [dispatch, error])
 
-    return { data, status, error, loading };
-};
+    return { status, loading, data, error, enrollDrive };
+}
 
-export default useMockDriveEnrollMentHook;
+export default useMockDriveEnrollmentHook;

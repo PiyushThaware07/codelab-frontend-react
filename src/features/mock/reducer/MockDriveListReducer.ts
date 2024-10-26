@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { InitialStateType } from "../types/mockDriveDetailType";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axiosInstance from "../../../api/axiosInstance";
 import { AxiosError } from "axios";
+import { InitialStateType } from "../types/MockDriveListType";
+
 
 
 const initialState: InitialStateType = {
@@ -11,10 +12,13 @@ const initialState: InitialStateType = {
     data: null,
 }
 
-export const fetchMockDriveDetail = createAsyncThunk("mock/fetchMockDriveDetail",
-    async (mockId: string, { rejectWithValue }) => {
+
+// API
+export const fetchMockDriveList = createAsyncThunk(
+    "mock-drive/fetchMockDriveList",
+    async (_, { rejectWithValue }) => {
         try {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/mock-drive/${mockId}`;
+            const url = `${import.meta.env.VITE_BACKEND_URL}/mock-drive/all/sort-by/category`;
             const response = await axiosInstance.get(url);
             return response.data.message || null;
         } catch (error) {
@@ -26,31 +30,31 @@ export const fetchMockDriveDetail = createAsyncThunk("mock/fetchMockDriveDetail"
 )
 
 
-const mockDriveDetail = createSlice({
-    name: "mock-drive/detail",
+const MockDriveListSlice = createSlice({
+    name: "mock-drive/list",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchMockDriveDetail.pending, (state) => {
+        builder.addCase(fetchMockDriveList.pending, (state) => {
             state.loading = true;
-            state.status = "loading";
+            state.error = null;
             state.data = null;
-            state.error = null;
+            state.status = "idle";
         })
-        builder.addCase(fetchMockDriveDetail.fulfilled, (state, action) => {
+        builder.addCase(fetchMockDriveList.fulfilled, (state, action) => {
             state.loading = false;
-            state.data = action.payload;
             state.error = null;
+            state.data = action.payload;
             state.status = "success";
         })
-        builder.addCase(fetchMockDriveDetail.rejected, (state, action) => {
+        builder.addCase(fetchMockDriveList.rejected, (state, action) => {
             state.loading = false;
+            state.error = action.payload as string;
             state.data = null;
-            state.error = action.payload as string | null;
             state.status = "failed";
         })
     }
 })
 
 
-export default mockDriveDetail.reducer;
+export default MockDriveListSlice.reducer;

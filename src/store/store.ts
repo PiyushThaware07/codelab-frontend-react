@@ -2,14 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authReducer from "../features/auth/reducers";
 import toastSlice from "../components/toast/reducer/toastSlice";
-import mockReducer from "../features/mock/reducers";
+import mockReducer from '../features/mock/reducer/index';
 
 
 const store = configureStore({
     reducer: {
         toast: toastSlice,
         auth: authReducer,
-        mock: mockReducer,
+        mock:mockReducer,
     }
 })
 
