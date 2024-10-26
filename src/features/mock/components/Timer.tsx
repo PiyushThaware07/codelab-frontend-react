@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { DataType, QuizType } from "../types/MockDriveOnlineTest";
+
 
 
 const Timer: React.FC<{ data: DataType }> = ({ data }) => {
     const mapData: DataType = data;
     const currentQuiz: QuizType = mapData?.currentQuestions?.quiz;
+
+
+
     const initialDuration = currentQuiz?.durations * 60;
     const [remainingTime, setRemainingTime] = useState(initialDuration);
     useEffect(() => {
@@ -22,6 +26,10 @@ const Timer: React.FC<{ data: DataType }> = ({ data }) => {
 
         return () => clearInterval(timerInterval);
     }, [initialDuration]);
+
+
+
+
     const formatTime = (time: number) => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
@@ -37,4 +45,4 @@ const Timer: React.FC<{ data: DataType }> = ({ data }) => {
     );
 };
 
-export default Timer;
+export default memo(Timer);

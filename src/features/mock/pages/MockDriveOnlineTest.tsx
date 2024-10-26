@@ -1,22 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../../../components/button/Button";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useMockDriveOnlineTestHook from "../hooks/useMockDriveOnlineTestHook";
 import Loader from "../../../components/loader/Loader";
 import { DataType, SelectOptionType } from "../types/MockDriveOnlineTest";
 import { handleNavigate, updateSelectOption } from "../reducer/MockDriveOnlineTestReducer";
-import { useAppDispatch } from "../../../store/store";
 import Timer from "../components/Timer";
 import Tracking from "../components/Tracker";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { useParams } from "react-router-dom";
+import { fetchMockDriveSaveProgress } from "../reducer/MockDriveOnlineTestProgressReducer";
 
 
 
 const MockDriveOnlineTest: React.FC = () => {
+    const { quizId, attemptNumber } = useParams();
     const dispatch = useAppDispatch();
     const { loading, data } = useMockDriveOnlineTestHook();
+    const mapData: DataType = data;
+
+    console.log(mapData,"<--");
+
+
+    // SAVE PROGRESS
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (quizId && attemptNumber && data) {
+                const selectedOptions: SelectOptionType[] = mapData?.selectedOptions;
+                dispatch(fetchMockDriveSaveProgress({ quizId, attemptNumber, payload: selectedOptions }));
+            }
+        }, 2 * 60 * 1000);
+
+        return () => clearInterval(intervalId);
+    }, [dispatch, attemptNumber, quizId, data]);
+
+
+
     if (loading) return <Loader />
-    if (data) {
-        const mapData: DataType = data;
+    if (mapData) {
         const currentIndex = mapData?.currentIndex;
         const currentQuestions = mapData?.currentQuestions?.questions;
         const currentQuestion = currentQuestions[currentIndex];
